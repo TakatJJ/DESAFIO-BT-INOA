@@ -20,18 +20,28 @@ namespace MarketGuide
             BuyClause = double.Parse(args[2], CultureInfo.InvariantCulture);
         }
 
-        public bool CheckClauses(double price)
+        public async Task CheckClauses(double price , string ativo, List<string> contacts)
         {
+            EmailSender sender = new EmailSender();
+            
             if (BuyClause > price)
             {
-                Console.WriteLine("Enviar email BUY");
+                foreach (string contact in contacts) 
+                {
+                    await sender.SendEmailAsync("dummietestbr@outlook.com", "Buy", "compra", ativo);
+                }
+                
             }
 
             if (SellClause < price)
             {
-                Console.WriteLine("Enviar email SELL");
+                foreach (string contact in contacts) 
+                {
+                    await sender.SendEmailAsync("dummietestbr@outlook.com", "Sell", "venda", ativo);
+                }
+     
             }
-            return true;
+            return ;
         }
     }
 }

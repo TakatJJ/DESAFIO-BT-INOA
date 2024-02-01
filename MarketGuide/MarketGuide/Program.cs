@@ -8,19 +8,16 @@ using Newtonsoft.Json;
 class Program
 {
     
-    
-   // public class ApiResponse
-    //{
-     //   public string name { get; set; }
-        // Add other properties as needed based on your API response structure
-    //}
     static async Task Main(string[] args)
     {
         // Replace the API URL with the actual endpoint you want to call
         string token = "1xGjrWigkkC1RJfiz43Ewx";
         string apiUrl = $"https://brapi.dev/api/quote/{args[0]}?token={token}";
         const int Minute = 60000;
-        
+        List<string> contacts = new List<string>();
+        Reader reader = new Reader();
+        contacts = reader.GetContent("D:\\DESAFIOS INOA\\DESAFIO BT INOA\\MarketGuide\\MarketGuide\\Emails.txt");
+
         // Create an instance of HttpClient
         while (true) {
             
@@ -39,9 +36,8 @@ class Program
 
                         APIResponse apiResponse = JsonConvert.DeserializeObject<APIResponse>(result);
 
-                        //Console.WriteLine(apiResponse.Results[0].Symbol);
                         UserClauses userClauses = new UserClauses(args);
-                        userClauses.CheckClauses(apiResponse.Results[0].RegularMarketPrice);
+                        userClauses.CheckClauses(apiResponse.Results[0].RegularMarketPrice, apiResponse.Results[0].Symbol, contacts);
 
                     }
                     else
